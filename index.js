@@ -2,15 +2,22 @@ let myLinks = [];
 const inputEl = document.getElementById("input-el");
 const inputBtn = document.getElementById("input-btn");
 const ulEl = document.getElementById("ul-el");
+const deleteBtn = document.getElementById("delete-btn");
 
-let linksFromLocalStorage = JSON.parse(localStorage.getItem("myLinks"));
+const linksFromLocalStorage = JSON.parse(localStorage.getItem("myLinks"));
 
 if (linksFromLocalStorage) {
   myLinks = linksFromLocalStorage;
   renderLinks();
 }
 
-inputBtn.addEventListener("click", function () {
+deleteBtn.addEventListener("dblclick", () => {
+  localStorage.clear();
+  myLinks = [];
+  renderLinks();
+});
+
+inputBtn.addEventListener("click", () => {
   myLinks.push(inputEl.value);
   inputEl.value = "";
   localStorage.setItem("myLinks", JSON.stringify(myLinks));

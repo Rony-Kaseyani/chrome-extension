@@ -4,11 +4,20 @@ const inputBtn = document.getElementById("input-btn");
 const ulEl = document.getElementById("ul-el");
 const deleteBtn = document.getElementById("delete-btn");
 const linksFromLocalStorage = JSON.parse(localStorage.getItem("myLinks"));
+const tabBtn = document.getElementById("tab-btn");
 
 if (linksFromLocalStorage) {
   myLinks = linksFromLocalStorage;
   render(myLinks);
 }
+
+tabBtn.addEventListener("click", () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    myLinks.push(tabs[0].url);
+    localStorage.setItem("myLinks", JSON.stringify(myLinks));
+    render(myLinks);
+  });
+});
 
 function render(links) {
   let listItems = "";
@@ -16,7 +25,7 @@ function render(links) {
     listItems += `
       <li>
       <a target='_blank' href=' ${links[i]} '>
-      ${links[i]} 
+      ${links[i]}
       </a>
       </li>`;
   }

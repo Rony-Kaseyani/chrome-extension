@@ -1,22 +1,29 @@
-let myLeads = [];
+let myLinks = [];
 const inputEl = document.getElementById("input-el");
 const inputBtn = document.getElementById("input-btn");
 const ulEl = document.getElementById("ul-el");
 
+let linksFromLocalStorage = JSON.parse(localStorage.getItem("myLinks"));
+
+if (linksFromLocalStorage) {
+  myLinks = linksFromLocalStorage;
+  renderLinks();
+}
+
 inputBtn.addEventListener("click", function () {
-  myLeads.push(inputEl.value);
+  myLinks.push(inputEl.value);
   inputEl.value = "";
-  renderLeads();
+  localStorage.setItem("myLinks", JSON.stringify(myLinks));
+  renderLinks();
 });
 
-function renderLeads() {
+function renderLinks() {
   let listItems = "";
-  for (let i = 0; i < myLeads.length; i++) {
-    // Refactor the code below to use a template string
+  for (let i = 0; i < myLinks.length; i++) {
     listItems += `
     <li>
-    <a target='_blank' href=' ${myLeads[i]} '>
-    ${myLeads[i]} 
+    <a target='_blank' href=' ${myLinks[i]} '>
+    ${myLinks[i]} 
     </a>
     </li>`;
   }
